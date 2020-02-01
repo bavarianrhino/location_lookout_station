@@ -107,3 +107,39 @@ app.get('/', (req, res, next) => { // action='/user' connects above app.post
 
 app.listen(5000);
 ```
+
+# Error handling within Routes to be replaced by error module
+```javascript
+router.get('/:pid', (req, res, next) => {
+    console.log("GET PLACE /:pid");
+    const placeId = req.params.pid; // { pid: 'place1' }
+    const place = DUMMY_PLACES.find(p => {
+        return p.id === placeId;
+    })
+    if (!place) {
+        // Below replaces...return res.status(404).json({ message: "Could not find a place for the provided id."})
+        // Use throw for synchronous and next() for asynchronous
+        const error = new Error('Could not find a place for the provided id.')
+        error.code = 404;
+        throw error; // Don't need to use 'return'
+    }
+    // res.json({ message: 'It Works!' });
+    // res.json({ place: place }); // Which is then shortened to...
+    res.json({place}); // => { place } => { place: place }
+});
+
+router.get('/user/:uid', (req, res, next) => {
+    console.log("GET PLACES for USER /:uid");
+    const userId = req.params.uid; // { uid: 'u1' }
+    const places = DUMMY_PLACES.find(p => {
+        return p.creator === userId;
+    })
+    if (!places) {
+        // Below replaces...return res.status(404).json({ message: "Could not find a place for the provided id."})
+        // Use throw for synchronous and next() for asynchronous
+        const error = new Error('Could not find a place for the provided id.')
+        error.code = 404;
+        return next(error) // Need to use return with next()
+    }
+    res.json({places});
+```
