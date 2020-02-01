@@ -42,6 +42,7 @@ server.listen(5000);
 - Above is then refactored using express to...
 ```javascript
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express();
 // Use method is provided by express for middleware
 // next is called when you want to forward the response to another middleware
@@ -64,6 +65,8 @@ app.use((req, res, next) => {
         body += chunk
     });
 })
+// Above code is replaced by app.use(bodyParser.urlencoded({ extended: false }))
+
 
 app.use((req, res, next) => {
     if (req.body) {
