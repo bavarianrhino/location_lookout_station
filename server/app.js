@@ -6,6 +6,6 @@ const usersRoutes = require('./routes/users-routes');
 
 const app = express();
 
-app.use(placesRoutes)
+app.use('/api/places', placesRoutes); // => /api/places...
 
 app.listen(5000);
