@@ -1,14 +1,18 @@
-// const fs = require('fs'); //fs = file system module - only available in the node.js environment and not the browser
-// const userName = 'Ryan';
 
-// // this is an asynchronous process
-// fs.writeFile('user-data.txt', 'Name: ' + userName, (err) => {
-//     if (err) {
-//         console.log(err);
-//         return;
-//     }
-//     console.log('WROTE FILE');
-// });
+# Node.JS Notes
+- Below is vanilla node without express
+
+```javascript
+const fs = require('fs'); //fs = file system module - only available in the node.js environment and not the browser
+const name = 'Ryan';
+// this is an asynchronous process
+fs.writeFile('user-data.txt', 'Name: ' + name, (err) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    console.log('WROTE FILE');
+});
 
 const http = require('http');
 const server = http.createServer((req, res) => {
@@ -33,3 +37,4 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(5000);
+```
