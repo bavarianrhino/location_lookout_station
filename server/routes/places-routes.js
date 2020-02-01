@@ -1,5 +1,7 @@
 const express = require('express');
 
+const HttpError = require('../models/http-error')
+
 const router = express.Router();
 
 const DUMMY_PLACES = [
@@ -27,9 +29,10 @@ router.get('/:pid', (req, res, next) => {
     if (!place) {
         // Below replaces...return res.status(404).json({ message: "Could not find a place for the provided id."})
         // Use throw for synchronous and next() for asynchronous
-        const error = new Error('Could not find a place for the provided id.')
-        error.code = 404;
-        throw error; // Don't need to use 'return'
+        // const error = new Error('Could not find a place for the provided id.')
+        // error.code = 404;
+        // throw error; // Don't need to use 'return'
+        throw new HttpError('Could not find a place for the provided id.', 404)
     }
     // res.json({ message: 'It Works!' });
     // res.json({ place: place }); // Which is then shortened to...
@@ -45,9 +48,10 @@ router.get('/user/:uid', (req, res, next) => {
     if (!places) {
         // Below replaces...return res.status(404).json({ message: "Could not find a place for the provided id."})
         // Use throw for synchronous and next() for asynchronous
-        const error = new Error('Could not find a place for the provided id.')
-        error.code = 404;
-        return next(error) // Need to use return with next()
+        // const error = new Error('Could not find a place for the provided id.')
+        // error.code = 404;
+        // return next(error) // Need to use return with next()
+        return next(new HttpError('Could not find a place for the provided id.', 404))
     }
     res.json({places});
 });
