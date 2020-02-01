@@ -13,11 +13,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: false })) // Automatically calls next() for us.
 
 app.post('/user', (req, res, next) => {
+    console.log('POST MIDDLEWARE EXECUTED AT /user')
     return res.send('<h1>' + req.body.username + '</h1>') // The username is found within the html input...(see below)
     // res.send('<form method="POST"><input type="text" name="username"><button type="submit">Create User</button></form>')
 })
 
 app.get('/', (req, res, next) => { // action='/user' connects above app.post
+    console.log('GET MIDDLEWARE EXECUTED AT /')
     res.send('<form action="/user" method="POST"><input type="text" name="username"><button type="submit">Create User</button></form>')
 })
 
