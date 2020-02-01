@@ -1,35 +1,34 @@
-// const fs = require('fs'); //fs = file system module - only available in the node.js environment and not the browser
-// const userName = 'Ryan';
+const express = require('express')
 
-// // this is an asynchronous process
-// fs.writeFile('user-data.txt', 'Name: ' + userName, (err) => {
-//     if (err) {
-//         console.log(err);
-//         return;
-//     }
-//     console.log('WROTE FILE');
-// });
+const app = express();
 
-const http = require('http');
-const server = http.createServer((req, res) => {
-    console.log('INCOMING REQUEST');
-    console.log(`method: ${req.method}`, `URL: ${req.url}`);
+// Use method is provided by express for middleware
+// next is called when you want to forward the response to another middleware
+app.use((req, res, next) => {
+    console.log('MIDDLEWARE')
+    next();
+})
 
-    if (req.method === 'POST') {
-        let body = '';
+app.use((req, res, next) => {
+    let body = '';
+    req.on('end', () => {
+        // console.log(body);
+        const userName = body.split('=')[1]
+        if (userName) {
+            req.body = { name: userName };
+        }
+        next();
+    })
+    req.on('data', (chunk) => {
+        body += chunk
+    });
+})
 
-        req.on('end', () => {
-            console.log(body);
-            const userName = body.split('=')[1]
-            res.end(`<h1> Got the POST request!...${userName}</h1>`)
-        })
-        req.on('data', (chunk) => {
-            body += chunk
-        });
-    } else {    
-        res.setHeader('Content-Type', 'text/html');
-        res.end('<form method="POST"><input type="text" name="username"><button type="submit">Create User</button></form>');
+app.use((req, res, next) => {
+    if (req.body) {
+        return res.send('<h1>' + req.body.name + '</h1>')
     }
-});
+    res.send('<form method="POST"><input type="text" name="username"><button type="submit">Create User</button></form>')
+})
 
-server.listen(5000);
+app.listen(5000);
