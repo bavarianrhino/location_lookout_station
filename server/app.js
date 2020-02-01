@@ -1,5 +1,7 @@
-const fs = require('fs');
+const fs = require('fs'); //fs = file system module - only available in the node.js environment and not the browser
 const userName = 'Ryan';
+
+// this is an asynchronous process
 fs.writeFile('user-data.txt', 'Name: ' + userName, (err) => {
     if (err) {
         console.log(err);
