@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser') // Gives us ready made middlewares
 
 const app = express();
 
