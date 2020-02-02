@@ -39,13 +39,13 @@ const getPlaceById = (req, res, next) => {
 
 
 // router.get('/user/:uid', (req, res, next) => {
-const getPlaceByUserId = (req, res, next) => {
+const getPlacesByUserId = (req, res, next) => {
     console.log("GET PLACES for USER /:uid");
     const userId = req.params.uid; // { uid: 'u1' }
-    const places = DUMMY_PLACES.find(p => {
+    const places = DUMMY_PLACES.filter(p => {
         return p.creator === userId;
     })
-    if (!places) {
+    if (!places || places.length === 0) {
         // Below replaces...return res.status(404).json({ message: "Could not find a place for the provided id."})
         // Use throw for synchronous and next() for asynchronous
         // const error = new Error('Could not find a place for the provided id.')
@@ -116,7 +116,7 @@ const deletePlaceById = (req, res, next) => {
 
 
 exports.getPlaceById = getPlaceById;
-exports.getPlaceByUserId = getPlaceByUserId;
+exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
 exports.updatePlaceById = updatePlaceById;
 exports.deletePlaceById = deletePlaceById;
