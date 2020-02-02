@@ -2,7 +2,7 @@ const uuid = require('uuid/v4') //v4 gives a timestamp along with a unique id
 
 const HttpError = require('../models/http-error')
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
     {
         id: 'p1',
         title: 'Empire State Building',
@@ -87,6 +87,36 @@ const createPlace = (req, res, next) => {
     res.status(201).json({ place: createdPlace })
 };
 
+const updatePlaceById = (req, res, next) => {
+    console.log("EDIT PLACE /:pid");
+    const { title, description } = req.body // Only allowing user to edit title and description.
+    const placeId = req.params.pid; // { pid: 'p1' }
+
+    // Want to update in an immutable way
+    const updatedPlace = { ...DUMMY_PLACES.find(p => p.id === placeId) };
+    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
+    updatedPlace.title = title;
+    updatedPlace.description = description;
+
+    DUMMY_PLACES[placeIndex] = updatedPlace;
+
+    res.status(200).json({ place: updatedPlace })
+}
+
+
+const deletePlaceById = (req, res, next) => {
+    console.log("DELETE PLACE /:pid");
+    const placeId = req.params.pid; // { pid: 'place1' }
+    // Filter returns new array for every condition that is true
+    // In order to remove, we return all places that dont have the placeId of the deleted place using !==
+    DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId)
+
+    res.status(200).json({ message: "Deleted place!"})
+}
+
+
 exports.getPlaceById = getPlaceById;
 exports.getPlaceByUserId = getPlaceByUserId;
 exports.createPlace = createPlace;
+exports.updatePlaceById = updatePlaceById;
+exports.deletePlaceById = deletePlaceById;
