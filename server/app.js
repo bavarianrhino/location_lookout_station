@@ -6,6 +6,8 @@ const usersRoutes = require('./routes/users-routes');
 
 const app = express();
 
+app.use(bodyParser.json())
+
 app.use('/api/places', placesRoutes); // => /api/places...
 
 // Express knows when you pass a use function 4 parameters, it knows to use it as an error middleware.
