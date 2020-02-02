@@ -1,4 +1,5 @@
-// const uuid = require('uuid/v4')
+const uuid = require('uuid/v4') //v4 gives a timestamp along with a unique id
+
 const HttpError = require('../models/http-error')
 
 const DUMMY_PLACES = [
@@ -73,6 +74,7 @@ const createPlace = (req, res, next) => {
     const { title, description, coordinates, address, creator } = req.body
     // Above is shorthand for const title = req.body.title;
     const createdPlace = {
+        id: uuid(),
         title: title,
         description: description,
         location: coordinates,
