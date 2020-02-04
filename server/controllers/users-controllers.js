@@ -25,7 +25,7 @@ const getUsers = (req, res, next) => {
     if (!users || users.length === 0) {
         return next(new HttpError('Could not find any users.', 404))
     }
-    res.json({users});
+    res.status(200).json({users});
 }
 
 
@@ -36,7 +36,7 @@ const signupNewUser = (req, res, next) => {
         return u.email === email;
     })
     if (!!user) {
-        throw new HttpError('User with this email already exists.', 404)
+        throw new HttpError('User with these credentials already exists.', 401)
     }
     const createdUser = {
         id: uuid(),
@@ -54,13 +54,11 @@ const signupNewUser = (req, res, next) => {
 const loginUser = (req, res, next) => {
     console.log("Login User - /login");
     const { email, password } = req.body
-    const user = DUMMY_USERS.find(u => {
-        return u.email === email;
-    })
-    if (!user) {
-        throw new HttpError('User does not exist.', 404)
+    const identifiedUser = DUMMY_USERS.find(u => u.email === email)
+    if (!identifiedUser) {
+        throw new HttpError('Could not identify user, please check credentials', 401)
     }
-    res.json({user});
+    res.json({ message: "Logged In!"});
 }
 exports.getUsers = getUsers;
 exports.signupNewUser = signupNewUser;
