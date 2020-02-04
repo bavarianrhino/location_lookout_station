@@ -23,7 +23,7 @@ const getUsers = (req, res, next) => {
     console.log("GET all Users - /");
     const users = DUMMY_USERS
     if (!users || users.length === 0) {
-        return next(new HttpError('Could not find any users.', 404))
+        return next(new HttpError('Could not find any users.', 401))
     }
     res.status(200).json({users});
 }
@@ -36,7 +36,7 @@ const signupNewUser = (req, res, next) => {
         return u.email === email;
     })
     if (!!user) {
-        throw new HttpError('User with these credentials already exists.', 401)
+        throw new HttpError('User with these credentials already exists.', 422)
     }
     const createdUser = {
         id: uuid(),
