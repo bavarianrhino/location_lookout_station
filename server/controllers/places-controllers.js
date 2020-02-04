@@ -102,7 +102,7 @@ const updatePlaceById = (req, res, next) => {
         console.log(errors)
         throw new HttpError('Invalid inputs passed, please try again!', 422)
     }
-    
+
     console.log("EDIT PLACE /:pid");
     const { title, description } = req.body // Only allowing user to edit title and description.
     const placeId = req.params.pid; // { pid: 'p1' }
@@ -122,6 +122,10 @@ const updatePlaceById = (req, res, next) => {
 const deletePlaceById = (req, res, next) => {
     console.log("DELETE PLACE /:pid");
     const placeId = req.params.pid; // { pid: 'place1' }
+
+    if (!DUMMY_PLACES.find(p => p.id === placeId)) {
+        throw new HttpError('Could not find place!', 404)
+    }
     // Filter returns new array for every condition that is true
     // In order to remove, we return all places that dont have the placeId of the deleted place using !==
     DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId)
