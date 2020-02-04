@@ -1,4 +1,5 @@
 const uuid = require('uuid/v4') //v4 gives a timestamp along with a unique id
+const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error')
 
@@ -71,6 +72,13 @@ const getPlacesByUserId = (req, res, next) => {
 //    }
 // }
 const createPlace = (req, res, next) => {
+    const errors = validationResult(req);//
+
+    if (!errors.isEmpty()) {
+        console.log(errors)
+        throw new HttpError('Invalid inputs passed, please try again!', 422)
+    }
+
     const { title, description, coordinates, address, creator } = req.body
     // Above is shorthand for const title = req.body.title;
     const createdPlace = {
