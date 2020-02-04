@@ -74,10 +74,11 @@ const getPlacesByUserId = (req, res, next) => {
 // }
 const createPlace = async (req, res, next) => {
     const errors = validationResult(req);//
+    // console.log(req)
 
     if (!errors.isEmpty()) {
         console.log(errors)
-        next(new HttpError('Invalid inputs passed, please try again!', 422))
+        return next(new HttpError('Invalid inputs passed, please try again!', 422))
     }
 
     const { title, description, address, creator } = req.body
@@ -91,11 +92,11 @@ const createPlace = async (req, res, next) => {
     // Above is shorthand for const title = req.body.title;
     const createdPlace = {
         id: uuid(),
-        title: title,
-        description: description,
+        title,
+        description,
         location: coordinates,
-        address: address,
-        creator: creator
+        address,
+        creator
     };
 
     DUMMY_PLACES.push(createdPlace)
