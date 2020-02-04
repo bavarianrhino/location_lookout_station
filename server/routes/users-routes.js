@@ -1,19 +1,11 @@
 const express = require('express');
 
+const usersControllers = require('../controllers/users-controllers')
+
 const router = express.Router();
 
-const DUMMY_USERS = [
-    {
-        id: 'u1',
-        name: 'Ryan Riesenberger',
-        email: 'rjriesenberger@gmail.com',
-        image: "https://www.bobross.com/v/vspfiles/templates/bobrossjoy/images/template/home_bob.png",
-        password: "password"
-    }
-]
-
-router.get('/', (req, res, next) => {
-    console.log("GET router request in Users Routes");
-});
+router.get('/', usersControllers.getUsers)
+router.post('/signup', usersControllers.signupNewUser)
+router.post('/login', usersControllers.loginUser)
 
 module.exports = router;
