@@ -1,7 +1,7 @@
 // PRODUCTION KEYS - Reference global keys set in Heroku
 module.exports = {
-    googleMapsAPIKey: process.env.GOOGLE_MAPS_API_KEY,
-    redirectDomain: process.env.REDIRECT_DOMAIN
+    GOOGLEMAPSAPIKEY: process.env.GOOGLE_MAPS_API_KEY,
+    REDIRECTDOMAIN: process.env.REDIRECT_DOMAIN
 };
 // googleClientID: process.env.GOOGLE_CLIENT_ID,
 // googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
