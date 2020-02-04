@@ -1,4 +1,5 @@
 const uuid = require('uuid/v4') //v4 gives a timestamp along with a unique id
+const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error')
 
@@ -30,8 +31,14 @@ const getUsers = (req, res, next) => {
 
 
 const signupNewUser = (req, res, next) => {
+    const errors = validationResult(req);//
+
+    if (!errors.isEmpty()) {
+        console.log(errors)
+        throw new HttpError('Invalid inputs passed, please try again!', 422)
+    }
     console.log("Signup New User - /signup");
-    const { name, email, image, password } = req.body
+    const { name, email, password } = req.body
     const user = DUMMY_USERS.find(u => {
         return u.email === email;
     })
@@ -42,7 +49,6 @@ const signupNewUser = (req, res, next) => {
         id: uuid(),
         name: name,
         email: email,
-        image: image,
         password: password
     };
 
