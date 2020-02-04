@@ -1,7 +1,7 @@
 
 // ================== REQUIRED MODULES ==================//
 const express = require('express');
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 
 // ================== REQUIRED MODELS ==================//
@@ -58,6 +58,16 @@ if (process.env.NODE_ENV === 'production') {
     // })
 }
 
+mongoose
+    .connect(keys.MONGOURI)
+    .then(() => {
+        const PORT = process.env.PORT || 5000; 
+        app.listen(PORT)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+
 // ================== SET PORT ==================//
-const PORT = process.env.PORT || 5000; 
-app.listen(PORT)
+// const PORT = process.env.PORT || 5000; 
+// app.listen(PORT)
