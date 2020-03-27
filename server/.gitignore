@@ -11,7 +11,7 @@ NOTES.md
 # Config
 dev.js
 config/dev
-config/dev.js
+config/dev
 
 # Logs
 logs

@@ -15,7 +15,7 @@ config/dev
 config/dev.js
 server/dev.js
 server/config/dev
-server/config/dev.js
+server/config/dev
 
 # Logs
 logs
